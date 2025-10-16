@@ -29,7 +29,7 @@ public class Application {
                 result = calculator(splitter(checkCustom.getFirst(), checkCustom.getLast()));
             }
         } catch (Exception e) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("잘못된 입력 형식입니다.");
         }
 
         return result;
@@ -55,7 +55,11 @@ public class Application {
 
     private static int calculator(int[] arr) {
         int result = 0;
+
         for (int v : arr) {
+            if (v <= 0) {
+                throw new IllegalArgumentException("양수만 가능합니다.");
+            }
             result += v;
         }
 
