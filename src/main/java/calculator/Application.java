@@ -14,10 +14,14 @@ public class Application {
 
         String input = Console.readLine();
 
-        System.out.println(processCalculate(input));
+        System.out.println("결과 : " + processCalculate(input));
     }
 
     private static int processCalculate(String input) {
+        if (input.isEmpty()) {
+            throw new IllegalArgumentException("입력값이 없습니다.");
+        }
+
         List<String> checkCustom = customChecker(input);
 
         int result = 0;
@@ -28,7 +32,7 @@ public class Application {
             } else if (checkCustom.size() == 2) {
                 result = calculator(splitter(checkCustom.getFirst(), checkCustom.getLast()));
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             throw new IllegalArgumentException("잘못된 입력 형식입니다.");
         }
 
@@ -39,15 +43,24 @@ public class Application {
 
         List<String> result = new ArrayList<>();
 
-        if (input.startsWith("/")) {
-            String[] temp = input.split("n");
+        if (input.startsWith("//")) {
+            String[] temp = input.split("\\\\n", 2);
+            if (temp.length < 2) {
+                throw new IllegalArgumentException("커스텀 구분자 형식에 오류가 있습니다.");
+            }
             String customPart =  temp[0];
             String strPart = temp[1];
 
+            String delimiter = customPart.substring(2);
+
+            if (delimiter.length() != 1) {
+                throw new IllegalArgumentException("커스텀 구분자는 한 글자만 지정할 수 있습니다.");
+            }
+
             result.add(strPart);
-            result.add(String.valueOf(customPart.charAt(2)));
+            result.add(String.valueOf(delimiter.charAt(0)));
         } else {
-            result.add(input);
+            throw new IllegalArgumentException("커스텀 구분자 형식에 오류가 있습니다.");
         }
 
         return result;
