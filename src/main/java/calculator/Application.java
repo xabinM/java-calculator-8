@@ -60,7 +60,7 @@ public class Application {
             result.add(strPart);
             result.add(String.valueOf(delimiter.charAt(0)));
         } else {
-            throw new IllegalArgumentException("커스텀 구분자 형식에 오류가 있습니다.");
+            result.add(input);
         }
 
         return result;
